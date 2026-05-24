@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KIS — Knowledge Intelligence System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+<!-- ── Ambient Background ─────────────────────────────────────────── -->
+<div class="bg-grid"></div>
+<div class="bg-glow g1"></div>
+<div class="bg-glow g2"></div>
+<div class="bg-glow g3"></div>
+
+<!-- ── Header ────────────────────────────────────────────────────── -->
+<header>
+  <div class="logo">
+    <span class="logo-icon">◈</span>
+    <div>
+      <div class="logo-title">KIS</div>
+      <div class="logo-sub">Knowledge Intelligence System</div>
+    </div>
+  </div>
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-pill"><span id="statDocs">0</span><label>docs</label></div>
+    <div class="stat-pill"><span id="statChunks">0</span><label>chunks</label></div>
+    <div class="stat-pill"><span id="statVectors">0</span><label>vectors</label></div>
+  </div>
+</header>
+
+<!-- ── Main Layout ────────────────────────────────────────────────── -->
+<main>
+
+  <!-- LEFT: Upload + Document Library -->
+  <aside class="panel panel-left">
+
+    <section class="upload-zone" id="uploadZone">
+      <div class="upload-icon">⬆</div>
+      <p class="upload-label">Drop files here</p>
+      <p class="upload-hint">PDF · TXT · DOCX · MD &nbsp;|&nbsp; max 50 MB</p>
+      <input type="file" id="fileInput" accept=".pdf,.txt,.docx,.md" multiple hidden />
+      <button class="btn-primary" onclick="document.getElementById('fileInput').click()">
+        Browse Files
+      </button>
+    </section>
+
+    <div class="upload-queue" id="uploadQueue"></div>
+
+    <div class="section-header">
+      <span>Document Library</span>
+      <span class="badge" id="docCount">0</span>
+    </div>
+
+    <div class="doc-list" id="docList">
+      <div class="empty-state">
+        <div class="empty-icon">◻</div>
+        <p>No documents indexed yet.<br/>Upload your first file above.</p>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- RIGHT: Q&A Chat -->
+  <section class="panel panel-right">
+
+    <div class="chat-header">
+      <div>
+        <div class="chat-title">Ask Your Knowledge Base</div>
+        <div class="chat-subtitle">RAG-powered · Semantic search · Source-cited answers</div>
+      </div>
+      <button class="btn-ghost" id="clearBtn" onclick="clearChat()">Clear</button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="welcome-msg">
+        <div class="welcome-icon">◈</div>
+        <h2>Ready to Answer</h2>
+        <p>Upload documents on the left, then ask anything about their content. KIS retrieves the most relevant passages and generates cited, precise answers.</p>
+        <div class="feature-pills">
+          <span>Semantic Search</span>
+          <span>Context-Aware</span>
+          <span>Source Citations</span>
+          <span>Multi-Document</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <div class="input-wrapper">
+        <textarea
+          id="questionInput"
+          placeholder="Ask anything about your documents…"
+          rows="1"
+          onkeydown="handleKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <button class="btn-send" id="sendBtn" onclick="askQuestion()">
+          <span>Ask</span>
+          <span class="send-icon">→</span>
+        </button>
+      </div>
+      <div class="input-meta">
+        <span id="filterStatus">Searching all documents</span>
+        <span>↵ Enter to send · Shift+↵ new line</span>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ── Toast ──────────────────────────────────────────────────────── -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
